@@ -1,6 +1,7 @@
 import express from 'express';
 import dotenv from 'dotenv';
 import mongoose from 'mongoose';
+import cors from 'cors';
 import dns from 'dns';
 
 import userRoutes from './routes/User.route.js';
@@ -12,7 +13,9 @@ dotenv.config();
 const app = express();
 
 // Middleware
+app.use(cors());
 app.use(express.json());
+
 
 // Routes
 app.use('/api/users', userRoutes);
