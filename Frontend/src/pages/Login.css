@@ -1,0 +1,154 @@
+/* src/pages/Login.css */
+
+.login-container {
+  display: flex;
+  height: 100vh;
+  width: 100vw;
+  font-family: 'Inter', sans-serif;
+  overflow: hidden;
+}
+
+/* --- Left Side: Visual & Brand --- */
+.login-visual {
+  flex: 1;
+  /* Dark textured background with a subtle overlay */
+  background: 
+    linear-gradient(rgba(26, 26, 26, 0.85), rgba(26, 26, 26, 0.95)),
+    url('../assets/login_hero_2.jpg'); 
+  background-size: cover;
+  background-position: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 80px;
+  color: white;
+  position: relative;
+}
+
+.login-visual h1 {
+  font-family: 'Playfair Display', serif; /* Elegant Serif Font */
+  font-size: 4rem;
+  line-height: 1.1;
+  margin-bottom: 20px;
+}
+
+.gold-accent {
+  color: #ccb068;
+  font-style: italic;
+}
+
+.login-visual p {
+  font-size: 1.2rem;
+  color: #a0a0a0;
+  max-width: 400px;
+  line-height: 1.6;
+}
+
+/* --- Right Side: The Form --- */
+.login-form-wrapper {
+  flex: 0.8; /* Slightly narrower than the image side */
+  background: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 40px;
+}
+
+.login-box {
+  width: 100%;
+  max-width: 400px;
+}
+
+.login-header h2 {
+  font-size: 2rem;
+  color: #1a1a1a;
+  margin-bottom: 10px;
+}
+
+.login-header p {
+  color: #64748b;
+  margin-bottom: 40px;
+}
+
+/* Reuse your input styles, but polished */
+.styled-input-group {
+  margin-bottom: 20px;
+}
+
+.styled-input-group label {
+  display: block;
+  font-size: 0.9rem;
+  color: #1a1a1a;
+  margin-bottom: 8px;
+  font-weight: 500;
+}
+
+.styled-input-group input {
+  width: 100%;
+  padding: 14px 16px;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+  background: #f8fafc;
+}
+
+.styled-input-group input:focus {
+  border-color: #ccb068; /* Gold Border on Focus */
+  background: #fff;
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(204, 176, 104, 0.1);
+}
+
+.login-btn {
+  width: 100%;
+  padding: 16px;
+  background: #1a1a1a;
+  color: #ccb068;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.3s;
+  margin-top: 10px;
+}
+
+.login-btn:hover {
+  background: #000;
+}
+
+.login-btn:disabled {
+  background: #ccc;
+  cursor: not-allowed;
+}
+
+/* Responsive */
+@media (max-width: 900px) {
+  .login-container {
+    flex-direction: column;
+  }
+  .login-visual {
+    padding: 40px;
+    flex: 0.4;
+  }
+  .login-visual h1 { font-size: 2.5rem; }
+  .login-form-wrapper { flex: 1; }
+}
+
+/* src/pages/Login.css */
+
+/* Add or replace this section at the end of your CSS file */
+.urdu-text {
+  display: block;
+  margin-top: 20px;
+  margin-left: 60px;
+  /* Ensure a nice Urdu font is available, falling back to serif */
+  font-family: 'Jameel Noori Nastaleeq', 'Noto Nastaliq Urdu', serif;
+  font-size: 125px;  /* Much bigger size */
+  font-weight: 500;
+  color: #ffffff;     /* Pure white for maximum contrast */
+  line-height: 1.4;   /* Balanced spacing between the two lines */
+  text-shadow: 0 4px 8px rgba(0,0,0,0.5); /* Premium looking shadow depth */
+}
