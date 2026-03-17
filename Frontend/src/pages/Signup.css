@@ -26,7 +26,16 @@ body, html {
 
 .left-pane {
   flex: 1;
-  background-color: var(--dark-bg);
+
+  /* Image with dark overlay */
+  background:
+    linear-gradient(rgba(17,17,17,0.75), rgba(17,17,17,0.9)),
+    url('../assets/login_hero.jpg');   /* your image path */
+
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+
   position: relative;
   display: flex;
   flex-direction: column;
