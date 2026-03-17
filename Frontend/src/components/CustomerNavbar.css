@@ -1,0 +1,126 @@
+/* src/components/CustomerNavbar.css */
+.customer-nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  
+  position: fixed; 
+  top: 0;
+  left: 0;
+  width: 100%;
+  box-sizing: border-box; 
+  
+  padding: 1.5rem 4rem;
+  background: rgba(10, 10, 10, 0.95); 
+  backdrop-filter: blur(10px);
+  z-index: 1000;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.nav-brand {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: #fff;
+  cursor: pointer;
+  letter-spacing: 1px;
+}
+
+.gold-text { color: #D4AF37; }
+
+.nav-links-container {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+}
+
+.nav-link {
+  color: #ccc;
+  text-decoration: none;
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  transition: color 0.3s ease;
+  font-family: 'Montserrat', sans-serif;
+}
+
+.nav-link:hover {
+  color: #D4AF37;
+}
+
+.nav-logout-btn {
+  background: transparent;
+  border: 1px solid #333;
+  color: #888;
+  padding: 8px 16px;
+  font-size: 0.75rem;
+  cursor: pointer;
+  text-transform: uppercase;
+  transition: all 0.3s ease;
+  margin-left: 10px;
+}
+
+.nav-logout-btn:hover {
+  border-color: #D4AF37;
+  color: #D4AF37;
+}
+
+.auth-btn.login {
+  background: #D4AF37;
+  border: none;
+  padding: 10px 24px;
+  color: #000;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+/* --- MOBILE RESPONSIVENESS --- */
+
+.mobile-menu-icon {
+  display: none;
+  font-size: 1.8rem;
+  color: #D4AF37;
+  cursor: pointer;
+  user-select: none;
+}
+
+@media screen and (max-width: 768px) {
+  .customer-nav {
+    padding: 1rem 1.5rem; /* Reduce padding on mobile */
+  }
+
+  .mobile-menu-icon {
+    display: block; /* Show hamburger */
+  }
+
+  .nav-links-container {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    background-color: #0a0a0a; /* Dark background for menu */
+    border-bottom: 1px solid rgba(212, 175, 55, 0.3);
+    
+    flex-direction: column;
+    padding: 2rem 0;
+    gap: 1.5rem;
+    
+    /* Animation Logic */
+    transform: translateY(-150%);
+    opacity: 0;
+    transition: all 0.3s ease-in-out;
+    z-index: -1; /* Hide behind navbar when closed */
+  }
+
+  .nav-links-container.active {
+    transform: translateY(0);
+    opacity: 1;
+    z-index: 999;
+  }
+
+  .nav-logout-btn {
+    margin-left: 0;
+    width: 80%;
+    text-align: center;
+  }
+}

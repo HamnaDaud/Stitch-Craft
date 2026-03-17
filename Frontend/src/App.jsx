@@ -1,45 +1,53 @@
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
-import { useEffect, useState } from 'react';
 import Signup from './pages/Signup';
 import Login from './pages/Login';
 
+// --- CUSTOMER IMPORTS ---
+import LandingPage from './pages/Customer/LandingPage';
+import MyOrders from './pages/Customer/MyOrders';
 
-// 1. Create a "Protected Route" component
+// --- IMPORT THE UI PROVIDER ---
+import { UiProvider } from './context/UiContext'; 
+
+// --- 1. Protected Route Wrapper ---
 const ProtectedRoute = ({ children }) => {
   const token = localStorage.getItem('token');
-  // If no token, kick them back to login
-  if (!token) {
-    return <Navigate to="/login" replace />;
-  }
+  if (!token) return <Navigate to="/login" replace />;
   return children;
 };
 
-function App() {
-  // Optional: Check if user is already logged in to redirect from login page
-  const isAuthenticated = !!localStorage.getItem('token');
+// --- 2. Role-Based Dashboard Switcher ---
+const RoleBasedDashboard = () => {
+  const userString = localStorage.getItem('userInfo');
+  const user = userString ? JSON.parse(userString) : null;
 
+  if (!user) return <Navigate to="/login" />;
+  if (user.role === 'Customer') return <LandingPage />;
+
+  return <div style={{color:'white'}}>Unknown Role</div>;
+};
+
+function App() {
   return (
     <Router>
-      <div className="App">
-        <Routes>
-          {/* If logged in, go to Dashboard, else Login */}
-          <Route path="/" element={isAuthenticated ? <Navigate to="/dashboard" /> : <Navigate to="/login" />} />
-          
-          <Route path="/signup" element={<Signup />} />
-          <Route path="/login" element={<Login />} />
+      <UiProvider>
+      
+        <div className="app-container">
+          <Routes>
+            {/* PUBLIC ROUTES */}
+            <Route path="/" element={<Navigate to="/login" />} />
+            <Route path="/signup" element={<Signup />} />
+            <Route path="/login" element={<Login />} />
+            
+            {/* PROTECTED ROUTES */}
+            <Route path="/my-orders" element={<ProtectedRoute><MyOrders /></ProtectedRoute>} />
 
-          {/* This route is protected. Only accessible if logged in */}
-          <Route 
-            path="/dashboard" 
-            element={
-              <ProtectedRoute>
-                {/* Replace this <h1> with your actual Dashboard component later */}
-                <h1 style={{color: 'black'}}>Welcome to StitchCraft Dashboard</h1> 
-              </ProtectedRoute>
-            } 
-          />
-        </Routes>
-      </div>
+            {/* SHARED DASHBOARD */}
+            <Route path="/dashboard" element={<ProtectedRoute><RoleBasedDashboard /></ProtectedRoute>} />
+          </Routes>
+        </div>
+
+      </UiProvider>
     </Router>
   );
 }

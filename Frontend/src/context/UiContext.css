@@ -1,0 +1,100 @@
+/* --- TOAST STYLES --- */
+.custom-toast {
+  position: fixed;
+  top: 100px; /* Positioned slightly down from top */
+  left: 50%;
+  transform: translateX(-50%) translateY(-20px);
+  background: rgba(15, 15, 15, 0.95);
+  color: white;
+  padding: 15px 30px;
+  border-radius: 50px; /* Pill shape */
+  border: 1px solid #333;
+  z-index: 9999;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  box-shadow: 0 10px 30px rgba(0,0,0,0.6);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 0.95rem;
+  pointer-events: none; /* Let clicks pass through if needed */
+}
+
+.custom-toast.show {
+  opacity: 1;
+  visibility: visible;
+  transform: translateX(-50%) translateY(0);
+}
+
+.custom-toast.success { border-color: #D4AF37; }
+.custom-toast.success .toast-icon { color: #D4AF37; font-weight: bold; }
+
+.custom-toast.error { border-color: #ff4444; }
+.custom-toast.error .toast-icon { color: #ff4444; font-weight: bold; }
+
+/* --- CONFIRM MODAL STYLES --- */
+.custom-confirm-overlay {
+  position: fixed;
+  top: 0; left: 0; width: 100%; height: 100%;
+  background: rgba(0, 0, 0, 0.85); /* Darker backdrop */
+  backdrop-filter: blur(8px);
+  z-index: 10000;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  animation: fadeIn 0.2s ease;
+}
+
+.custom-confirm-box {
+  background: #111;
+  border: 1px solid #333;
+  padding: 40px;
+  border-radius: 12px;
+  text-align: center;
+  width: 90%;
+  max-width: 450px;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.8);
+  border-top: 3px solid #D4AF37; /* Gold Top Accent */
+}
+
+.custom-confirm-box h3 {
+  color: #fff;
+  margin-top: 0;
+  font-family: 'Playfair Display', serif;
+  font-size: 1.5rem;
+  margin-bottom: 10px;
+}
+
+.custom-confirm-box p {
+  color: #aaa;
+  margin-bottom: 30px;
+  font-family: 'Montserrat', sans-serif;
+  line-height: 1.5;
+}
+
+.confirm-actions {
+  display: flex;
+  gap: 15px;
+  justify-content: center;
+}
+
+.confirm-actions button {
+  padding: 12px 25px;
+  border: none;
+  cursor: pointer;
+  border-radius: 4px;
+  font-weight: 600;
+  font-family: 'Montserrat', sans-serif;
+  transition: 0.3s;
+  font-size: 0.9rem;
+}
+
+.btn-cancel { background: #222; color: #888; border: 1px solid #333; }
+.btn-cancel:hover { background: #333; color: #fff; }
+
+.btn-confirm { background: #D4AF37; color: #000; }
+.btn-confirm:hover { background: #f0c548; transform: translateY(-2px); }
+
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
