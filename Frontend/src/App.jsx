@@ -6,6 +6,9 @@ import Login from './pages/Login';
 import LandingPage from './pages/Customer/LandingPage';
 import MyOrders from './pages/Customer/MyOrders';
 
+// --- TAILOR IMPORTS ---
+import TailorLandingPage from './pages/Tailor/TailorLandingPage';
+
 // --- IMPORT THE UI PROVIDER ---
 import { UiProvider } from './context/UiContext'; 
 
@@ -23,6 +26,7 @@ const RoleBasedDashboard = () => {
 
   if (!user) return <Navigate to="/login" />;
   if (user.role === 'Customer') return <LandingPage />;
+  if (user.role === 'Tailor') return <TailorLandingPage />;
 
   return <div style={{color:'white'}}>Unknown Role</div>;
 };
@@ -42,6 +46,9 @@ function App() {
             {/* PROTECTED ROUTES */}
             <Route path="/my-orders" element={<ProtectedRoute><MyOrders /></ProtectedRoute>} />
 
+            {/* TAILOR ROUTES */}
+            <Route path="/tailor/dashboard" element={<ProtectedRoute><TailorLandingPage /></ProtectedRoute>} />
+            
             {/* SHARED DASHBOARD */}
             <Route path="/dashboard" element={<ProtectedRoute><RoleBasedDashboard /></ProtectedRoute>} />
           </Routes>

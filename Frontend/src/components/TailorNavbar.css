@@ -1,0 +1,124 @@
+.tailor-navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 40px;
+  height: 80px;
+  background-color: rgba(5, 5, 5, 0.95);
+  border-bottom: 1px solid rgba(212, 175, 55, 0.2);
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 1000;
+  box-sizing: border-box;
+  backdrop-filter: blur(10px);
+}
+
+.nav-brand {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.5rem;
+  color: white;
+  letter-spacing: 2px;
+  cursor: pointer;
+}
+
+.gold-text {
+  color: #D4AF37;
+}
+
+.nav-links {
+  display: flex;
+  gap: 30px;
+}
+
+.nav-link {
+  background: none;
+  border: none;
+  color: #888;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 0.9rem;
+  cursor: pointer;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  transition: all 0.3s ease;
+  padding: 5px 0;
+  position: relative;
+}
+
+.nav-link:hover {
+  color: #fff;
+}
+
+.nav-link.active {
+  color: #D4AF37;
+}
+
+.nav-link.active::after {
+  content: '';
+  position: absolute;
+  bottom: -4px;
+  left: 0;
+  width: 100%;
+  height: 1px;
+  background-color: #D4AF37;
+}
+
+.logout-btn-nav {
+  padding: 8px 20px;
+  border: 1px solid #333;
+  background: transparent;
+  color: #fff;
+  font-family: 'Montserrat', sans-serif;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.logout-btn-nav:hover {
+  border-color: #ff4444;
+  color: #ff4444;
+}
+
+/* --- MOBILE RESPONSIVENESS --- */
+.tailor-mobile-icon {
+  display: none;
+  color: #D4AF37;
+  font-size: 1.8rem;
+  cursor: pointer;
+}
+
+@media screen and (max-width: 768px) {
+  .tailor-navbar {
+    padding: 0 20px;
+  }
+
+  .tailor-mobile-icon {
+    display: block;
+  }
+
+  .nav-links {
+    position: absolute;
+    top: 80px; /* Navbar height */
+    left: 0;
+    width: 100%;
+    background: #050505;
+    flex-direction: column;
+    padding: 20px 0;
+    gap: 20px;
+    border-bottom: 1px solid rgba(212, 175, 55, 0.2);
+    
+    /* Animation */
+    transform: translateY(-150%);
+    opacity: 0;
+    transition: all 0.3s ease;
+    z-index: -1;
+  }
+
+  .nav-links.mobile-active {
+    transform: translateY(0);
+    opacity: 1;
+  }
+
+  .logout-btn-nav {
+    display: none; /* Hide the external button on mobile */
+  }
+}
