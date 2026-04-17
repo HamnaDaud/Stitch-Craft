@@ -6,6 +6,7 @@ import dns from 'dns';
 
 import userRoutes from './routes/User.route.js';
 import fabricRoutes from './routes/Fabric.route.js';
+import fabricPurchaseRoutes from './routes/FabricPurchase.route.js';
 
 
 dns.setServers(["1.1.1.1", "8.8.8.8"]);
@@ -21,6 +22,7 @@ app.use(express.json());
 // Routes
 app.use('/api/users', userRoutes);
 app.use('/api/fabrics', fabricRoutes);
+app.use('/api/fabric-purchases', fabricPurchaseRoutes);
 
 
 app.use((req, res, next) => {
