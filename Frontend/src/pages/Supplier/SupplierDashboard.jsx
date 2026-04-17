@@ -1,9 +1,9 @@
 // src/pages/Supplier/SupplierDashboard.jsx
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { API_BASE_URL } from '../../config';
 import './SupplierDashboard.css';
 import SupplierNavbar from '../../components/SupplierNavbar';
-
 const SupplierDashboard = () => {
   const navigate = useNavigate();
   const [fabrics, setFabrics] = useState([]);
@@ -21,51 +21,43 @@ const SupplierDashboard = () => {
 
     const parsedUser = JSON.parse(storedUser);
     setUser(parsedUser);
-    
-    // Using your specific mock data function
-    const fetchFabrics = () => {
-      const mockData = [
-        {
-          _id: 'm1',
-          name: 'Midnight Silk',
-          fabricType: 'Silk',
-          price: 4500,
-          quantity: 45,
-          imageUrl: '/assets/mockFabrics/midnight-silk.jpg'
-        },
-        {
-          _id: 'm2',
-          name: 'Royal Velvet',
-          fabricType: 'Velvet',
-          price: 6200,
-          quantity: 8,
-          imageUrl: '/assets/mockFabrics/red-velevet.jpg'
-        },
-        {
-          _id: 'm3',
-          name: 'Woven Cotton',
-          fabricType: 'Cotton',
-          price: 2800,
-          quantity: 120,
-          imageUrl: '/assets/mockFabrics/woven-cotton.jpg'
-        }
-      ];
-
-      setTimeout(() => {
-        setFabrics(mockData);
-        setLoading(false);
-      }, 500);
-    };
-
-    fetchFabrics();
+    fetchFabrics(token, parsedUser._id);
   }, [navigate]);
+
+  const fetchFabrics = async (token, userId) => {
+    try {
+      const response = await fetch(`${API_BASE_URL}/fabrics`, {
+        headers: { 'Authorization': `Bearer ${token}` }
+      });
+      if (response.ok) {
+        const data = await response.json();
+        // Client side filtering for demo
+        const myFabrics = data.filter(f => f.supplier?._id === userId || f.supplier === userId);
+        setFabrics(myFabrics);
+      }
+    } catch (error) {
+      console.error("Failed to fetch fabrics", error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleLogout = () => {
+    localStorage.removeItem('token');
+    localStorage.removeItem('userInfo');
+    navigate('/login');
+  };
+
+  // Get Initials for Avatar
+  const getInitials = (name) => {
+    return name ? name.split(' ').map(n => n[0]).join('').substring(0, 2).toUpperCase() : 'SC';
+  };
 
   return (
     <div className="sd-layout">
       <SupplierNavbar />
 
       <div className="sd-container">
-        {/* --- Hero Section --- */}
         <header className="sd-hero">
           <div className="sd-hero-text">
             <h1>Inventory Collection</h1>
@@ -98,7 +90,7 @@ const SupplierDashboard = () => {
               style={{cursor: 'pointer'}}>
                 <div className="sd-img-wrapper">
                   <img 
-                    src={fabric.imageUrl} 
+                    src={fabric.imageUrl || "https://via.placeholder.com/300x200?text=Fabric"} 
                     alt={fabric.name} 
                     className="sd-img"
                   />

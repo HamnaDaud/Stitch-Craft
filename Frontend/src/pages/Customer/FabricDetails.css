@@ -1,0 +1,207 @@
+/* src/pages/Customer/FabricDetails.css */
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Montserrat:wght@300;400;500;600&display=swap');
+
+/* Main Wrapper - Forces no gaps at the top */
+.fd-details-page-wrapper {
+  background-color: #050505;
+  min-height: 100vh;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  font-family: 'Montserrat', sans-serif;
+  color: white;
+}
+
+/* Content Container - Adds spacing only AFTER the navbar */
+.fd-details-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  margin-top: 90px;
+  display: flex;
+  gap: 60px;
+  padding: 60px 40px; /* Top padding separates content from sticky nav */
+  width: 100%;
+  box-sizing: border-box; /* Ensures padding doesn't break layout */
+}
+
+/* Left Side - Image */
+.fd-details-image-box {
+  flex: 1;
+  height: 600px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  overflow: hidden;
+}
+
+.fd-details-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Right Side - Info */
+.fd-details-info-box {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.fd-collection-tag {
+  color: #D4AF37;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  font-size: 0.85rem;
+  margin-bottom: 15px;
+  font-weight: 600;
+}
+
+.fd-details-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 3.5rem;
+  margin: 0 0 20px 0;
+  line-height: 1.1;
+}
+
+.fd-details-price {
+  font-size: 1.5rem;
+  font-weight: 400;
+  color: #fff;
+  margin-bottom: 30px;
+}
+
+.fd-per-meter {
+  font-size: 1rem;
+  color: #666;
+}
+
+.fd-details-description {
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 30px 0;
+  margin-bottom: 30px;
+}
+
+.fd-desc-text {
+  line-height: 1.8;
+  color: #aaa;
+  margin: 0;
+}
+
+.fd-supplier-info {
+  margin-top: 15px;
+  color: #666;
+  font-size: 0.9rem;
+}
+
+/* Quantity Input Area */
+.fd-quantity-section {
+  display: flex;
+  gap: 20px;
+  align-items: flex-end;
+  margin-bottom: 30px;
+}
+
+.fd-qty-label {
+  display: block;
+  margin-bottom: 10px;
+  font-size: 0.9rem;
+  color: #ccc;
+}
+/* src/pages/Customer/FabricDetails.css */
+
+.fd-qty-input {
+  background-color: transparent !important;
+  border: 1px solid #555;
+  color: #fff !important; /* Force text white */
+  padding: 15px;
+  width: 100px;
+  font-size: 1.1rem;
+  font-family: 'Montserrat', sans-serif;
+  outline: none;
+  transition: border-color 0.3s ease;
+}
+
+/* Fix for when you click inside (Focus state) */
+.fd-qty-input:focus {
+  border-color: #D4AF37; /* Gold border on click */
+  background-color: transparent !important;
+  color: #fff !important;
+}
+
+/* Fix for browser auto-fill (if it happens) */
+.fd-qty-input:-webkit-autofill,
+.fd-qty-input:-webkit-autofill:hover, 
+.fd-qty-input:-webkit-autofill:focus {
+  -webkit-text-fill-color: #fff;
+  -webkit-box-shadow: 0 0 0px 1000px #050505 inset;
+  transition: background-color 5000s ease-in-out 0s;
+}
+
+.fd-stock-info {
+  padding-bottom: 15px;
+  color: #888;
+  font-size: 0.9rem;
+}
+
+/* Action Button */
+.fd-buy-btn {
+  background: #D4AF37;
+  border: none;
+  padding: 20px;
+  font-size: 1rem;
+  font-weight: 700;
+  letter-spacing: 2px;
+  cursor: pointer;
+  width: 100%;
+  text-transform: uppercase;
+  transition: background 0.3s ease;
+  color: #000;
+}
+
+.fd-buy-btn:hover {
+  background: #b5952f;
+}
+
+/* Loading / Error States */
+.fd-state-msg {
+  background-color: #050505;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #666;
+  font-size: 1.2rem;
+}
+
+/* ... keep all your existing CSS ... */
+
+/* ADD THESE NEW STYLES AT THE BOTTOM */
+
+.fd-address-section {
+  margin-bottom: 30px;
+  width: 100%;
+}
+
+.fd-address-input {
+  width: 100%;
+  background-color: transparent !important;
+  border: 1px solid #555;
+  color: #fff !important;
+  padding: 15px;
+  font-size: 1rem;
+  font-family: 'Montserrat', sans-serif;
+  outline: none;
+  transition: border-color 0.3s ease;
+  resize: vertical; /* Allows user to make box taller if needed */
+  box-sizing: border-box; /* Ensures padding doesn't widen the element beyond 100% */
+}
+
+.fd-address-input:focus {
+  border-color: #D4AF37; /* Gold border on focus */
+}
+
+.fd-address-input::placeholder {
+  color: #666;
+}

@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Silk from '../../components/Silk'; 
 import CustomerNavbar from '../../components/CustomerNavbar';
+import { API_BASE_URL } from '../../config';
 import './LandingPage.css';
 
 const LandingPage = () => {
@@ -17,70 +18,48 @@ const LandingPage = () => {
   };
   
   useEffect(() => {
-    const fetchMockData = () => {
-      setLoading(true);
-      
-      // Verified Luxury Fabric Assets
-      const mockFabrics = [
-        { 
-          _id: 'f1', 
-          name: 'Midnight Silk', 
-          price: 4500, 
-          imageUrl: '/assets/mockFabrics/midnight-silk.jpg' 
-        },
-        { 
-          _id: 'f2', 
-          name: 'Royal Velvet', 
-          price: 6200, 
-          imageUrl: '/assets/mockFabrics/red-velevet.jpg' 
-        },
-        { 
-          _id: 'f3', 
-          name: 'Woven Cotton', 
-          price: 2800, 
-          imageUrl: '/assets/mockFabrics/woven-cotton.jpg' 
-        },
-        { 
-          _id: 'f4', 
-          name: 'Raw Silk', 
-          price: 5500, 
-          imageUrl: '/assets/mockFabrics/raw-silk.jpg' 
-        },
-         { 
-          _id: 'f5', 
-          name: 'Chikankari Shawl', 
-          price: 4500, 
-          imageUrl: '/assets/mockFabrics/chicken-kari.jpg' 
-        },
-      ];
+    const fetchData = async () => {
+      try {
+        const token = localStorage.getItem('token');
+        const headers = { 'Content-Type': 'application/json' };
+        if (token) headers['Authorization'] = `Bearer ${token}`;
 
-      // Verified Tailor/Atelier Assets
-      const mockTailors = [
-        { 
-          _id: 't1', 
-          name: 'Master Rasheed', 
-          portfolio: [{ imageUrl: '/assets/mockTailors/white-shalwaar-kameez.jpg' }] 
-        },
-        { 
-          _id: 't2', 
-          name: 'Ritaj', 
-          portfolio: [{ imageUrl: '/assets/mockTailors/two-girls.jpg' }] 
-        },
-        { 
-          _id: 't3', 
-          name: 'Hammad Amer', 
-          portfolio: [] // Testing fallback
+        // 1. Fetch Real Fabric Data
+        const fabricRes = await fetch(`${API_BASE_URL}/fabrics/search`, { headers });
+        if (fabricRes.ok) {
+           const fabricData = await fabricRes.json();
+           if (Array.isArray(fabricData)) {
+             setFabrics(fabricData.slice(0, 8));
+           }
         }
-      ];
 
-      setTimeout(() => {
-        setFabrics(mockFabrics);
+        // 2. Use Mocked Tailor Data
+        const mockTailors = [
+          { 
+            _id: 't1', 
+            name: 'Master Rasheed', 
+            portfolio: [{ imageUrl: '/assets/mockTailors/white-shalwaar-kameez.jpg' }] 
+          },
+          { 
+            _id: 't2', 
+            name: 'Ritaj', 
+            portfolio: [{ imageUrl: '/assets/mockTailors/two-girls.jpg' }] 
+          },
+          { 
+            _id: 't3', 
+            name: 'Hammad Amer', 
+            portfolio: [] 
+          }
+        ];
         setTailors(mockTailors);
-        setLoading(false);
-      }, 800);
-    };
 
-    fetchMockData();
+      } catch (err) {
+        console.error("Error loading dashboard data:", err);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchData();
   }, []);
 
   const handleFabricClick = (fabricId) => {
@@ -113,30 +92,37 @@ const LandingPage = () => {
         <div className="clp-scroll-container">
           {loading ? (
              <div style={{padding:'0 60px', color: '#D4AF37'}}>Curating Collection...</div>
-          ) : fabrics.map((fabric) => (
+          ) : fabrics.length > 0 ? (
+             fabrics.map((fabric) => (
                <div key={fabric._id} className="clp-luxury-card" onClick={() => handleFabricClick(fabric._id)}>
                  <div className="clp-card-img-wrap">
-                   <img src={fabric.imageUrl} alt={fabric.name} className="clp-card-img" />
+                   <img 
+                     src={fabric.imageUrl || "https://via.placeholder.com/300x480?text=No+Image"} 
+                     alt={fabric.name} 
+                     className="clp-card-img" 
+                     onError={(e) => {e.target.onerror = null; e.target.src="https://via.placeholder.com/300x480?text=No+Image"}}
+                   />
                  </div>
                  <div className="clp-card-overlay">
                    <h3 className="clp-item-name">{fabric.name}</h3>
                    <div className="clp-item-price">PKR {fabric.price}/m</div>
                  </div>
                </div>
-          ))}
+             ))
+          ) : (
+             <div style={{padding:'0 60px'}}>No fabrics available.</div>
+          )}
         </div>
       </section>
 
-      {/* TAILOR SECTION */}
+      {/* TAILOR SECTION (Mocked) */}
       <section className="clp-showcase-row">
         <div className="clp-row-header">
           <h2 className="clp-row-title">Tailor Atelier</h2>
           <span className="clp-view-all" onClick={() => navigate('/book-tailor')}>View All Tailors</span>
         </div>
         <div className="clp-scroll-container">
-          {loading ? (
-             <div style={{padding:'0 60px', color: '#D4AF37'}}>Preparing Atelier...</div>
-          ) : tailors.map((tailor) => {
+          {tailors.map((tailor) => {
                const hasImage = tailor.portfolio?.[0]?.imageUrl;
                return (
                  <div key={tailor._id} className="clp-luxury-card" onClick={() => navigate(`/book-tailor/${tailor._id}`)}>

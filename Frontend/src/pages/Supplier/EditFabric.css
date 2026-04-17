@@ -1,0 +1,234 @@
+/* src/pages/Supplier/EditFabric.css */
+
+/* SCOPING: Variables defined on the container, not globally */
+.ef-layout {
+  --ef-bg: #0f1014;
+  --ef-card-bg: #18191f;
+  --ef-gold: #ccb068;
+  --ef-gold-hover: #e5c575;
+  --ef-text: #f1f5f9;
+  --ef-text-muted: #94a3b8;
+  --ef-glass: rgba(255, 255, 255, 0.08);
+  --ef-danger: #ef4444;
+
+  min-height: 100vh;
+  background-color: var(--ef-bg);
+  background-image: 
+    radial-gradient(circle at 10% 20%, rgba(204, 176, 104, 0.03) 0%, transparent 20%),
+    radial-gradient(circle at 90% 80%, rgba(204, 176, 104, 0.03) 0%, transparent 20%);
+  color: var(--ef-text);
+  font-family: 'Inter', sans-serif;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 40px 20px;
+}
+
+/* --- Header --- */
+.ef-header {
+  text-align: center;
+  margin-bottom: 30px;
+  width: 100%;
+  max-width: 900px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.ef-header h1 {
+  font-family: 'Playfair Display', serif;
+  font-size: 2.2rem;
+  color: white;
+}
+
+.ef-back-btn {
+  background: transparent;
+  color: var(--ef-text-muted);
+  border: 1px solid var(--ef-glass);
+  padding: 8px 16px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.ef-back-btn:hover {
+  border-color: var(--ef-gold);
+  color: var(--ef-gold);
+}
+
+/* --- Layout: Split View --- */
+.ef-content-grid {
+  display: flex;
+  gap: 40px;
+  width: 100%;
+  max-width: 1100px;
+  align-items: flex-start;
+}
+
+/* --- Left Side: Image --- */
+.ef-image-section {
+  flex: 1;
+  background: var(--ef-card-bg);
+  padding: 20px;
+  border-radius: 16px;
+  border: 1px solid var(--ef-glass);
+}
+
+.ef-img-preview {
+  width: 100%;
+  height: 400px;
+  overflow: hidden;
+  border-radius: 12px;
+  margin-bottom: 20px;
+  position: relative;
+}
+
+.ef-img-preview img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.ef-upload-btn {
+  width: 93%;
+  padding: 12px;
+  background: rgba(255,255,255,0.05);
+  border: 1px dashed var(--ef-gold);
+  color: var(--ef-gold);
+  border-radius: 8px;
+  cursor: pointer;
+  text-align: center;
+  transition: all 0.3s;
+}
+
+.ef-upload-btn:hover {
+  background: rgba(204, 176, 104, 0.1);
+}
+
+/* --- Right Side: Form --- */
+.ef-form-section {
+  flex: 1.5;
+  background: rgba(24, 25, 31, 0.6);
+  backdrop-filter: blur(12px);
+  border: 1px solid var(--ef-glass);
+  border-radius: 16px;
+  padding: 30px;
+}
+
+.ef-form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+
+.ef-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.ef-full {
+  grid-column: span 2;
+}
+
+.ef-group label {
+  font-size: 0.85rem;
+  color: var(--ef-text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.ef-input, 
+.ef-select, 
+.ef-textarea {
+  background: rgba(0, 0, 0, 0.2);
+  border: 1px solid var(--ef-glass);
+  border-radius: 8px;
+  padding: 12px;
+  color: white;
+  font-size: 1rem;
+  font-family: 'Inter', sans-serif;
+}
+
+.ef-select option {
+  background-color: white;
+  color: black;
+}
+
+.ef-input:focus, 
+.ef-select:focus,
+.ef-textarea:focus {
+  outline: none;
+  border-color: var(--ef-gold);
+  background: rgba(0, 0, 0, 0.4);
+}
+
+.ef-textarea {
+  min-height: 120px;
+  resize: vertical;
+}
+
+/* --- Action Buttons --- */
+.ef-actions {
+  grid-column: span 2;
+  display: flex;
+  justify-content: space-between;
+  margin-top: 30px;
+  padding-top: 20px;
+  border-top: 1px solid var(--ef-glass);
+}
+
+.ef-save-btn {
+  background: var(--ef-gold);
+  color: #0f1014;
+  border: none;
+  padding: 14px 30px;
+  font-weight: 600;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.ef-save-btn:hover {
+  background: var(--ef-gold-hover);
+  transform: translateY(-2px);
+}
+
+.ef-delete-btn {
+  background: transparent;
+  color: var(--ef-danger);
+  border: 1px solid var(--ef-danger);
+  padding: 14px 24px;
+  font-weight: 600;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.ef-delete-btn:hover {
+  background: var(--ef-danger);
+  color: white;
+}
+
+/* Loading State */
+.ef-loading {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #0f1014; /* Fallback if var not loaded yet */
+  color: #ccb068;
+}
+
+/* Responsive */
+@media (max-width: 900px) {
+  .ef-content-grid {
+    flex-direction: column;
+  }
+  .ef-image-section, .ef-form-section {
+    width: 100%;
+  }
+  .ef-img-preview {
+    height: 300px;
+  }
+}

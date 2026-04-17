@@ -1,0 +1,184 @@
+/* src/pages/Supplier/SupplierOrders.css */
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Montserrat:wght@300;400;500;600&display=swap');
+
+/* SCOPING: Variables are now defined on the main container, not globally */
+.so-layout {
+  --so-bg: #050505;
+  --so-card-bg: #101010;
+  --so-gold: #D4AF37;
+  --so-text: #ffffff;
+  --so-text-muted: #666666;
+  --so-border: rgba(255, 255, 255, 0.05);
+  
+  background-color: var(--so-bg);
+  min-height: 100vh;
+  padding-top: 120px;
+  color: var(--so-text);
+  font-family: 'Montserrat', sans-serif;
+}
+
+.so-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 40px 80px;
+}
+
+/* --- Header & Tabs --- */
+.so-header {
+  margin-bottom: 40px;
+  border-bottom: 1px solid rgba(255,255,255,0.1);
+  padding-bottom: 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+}
+
+.so-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 2.5rem;
+  margin: 0;
+  color: var(--so-text);
+}
+
+.so-tabs {
+  display: flex;
+  gap: 30px;
+}
+
+.so-tab-btn {
+  background: transparent;
+  border: none;
+  color: var(--so-text-muted);
+  font-family: 'Montserrat', sans-serif;
+  font-size: 1rem;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  padding-bottom: 10px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  position: relative;
+}
+
+.so-tab-btn.active {
+  color: var(--so-gold);
+}
+
+.so-tab-btn.active::after {
+  content: '';
+  position: absolute;
+  bottom: -21px; /* Aligns with border-bottom of header */
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background: var(--so-gold);
+}
+
+/* --- Order Card Styles --- */
+.so-card {
+  background: var(--so-card-bg);
+  border: 1px solid var(--so-border);
+  padding: 25px;
+  margin-bottom: 20px;
+  display: flex;
+  gap: 25px;
+  transition: transform 0.3s ease, border-color 0.3s ease;
+}
+
+.so-card:hover {
+  transform: translateY(-2px);
+  border-color: rgba(212, 175, 55, 0.3);
+}
+
+.so-img {
+  width: 120px;
+  height: 120px;
+  object-fit: cover;
+  border: 1px solid #333;
+}
+
+.so-details {
+  flex: 1;
+}
+
+.so-id {
+  font-size: 0.75rem;
+  color: var(--so-text-muted);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-bottom: 5px;
+}
+
+.so-fabric-name {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.5rem;
+  margin: 0 0 10px 0;
+  color: var(--so-text);
+}
+
+.so-meta-row {
+  display: flex;
+  gap: 30px;
+  color: #aaa;
+  font-size: 0.9rem;
+  margin-bottom: 15px;
+}
+
+.so-meta-item strong {
+  color: var(--so-text);
+  font-weight: 500;
+}
+
+/* --- Status & Actions (Right Side) --- */
+.so-actions {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  justify-content: space-between;
+  min-width: 200px;
+}
+
+.so-price {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.8rem;
+  color: var(--so-gold);
+}
+
+/* Status Select Dropdown */
+.so-status-select {
+  background: var(--so-bg);
+  color: var(--so-text);
+  border: 1px solid #444;
+  padding: 10px 15px;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  cursor: pointer;
+  outline: none;
+  width: 100%;
+}
+
+.so-status-select:focus {
+  border-color: var(--so-gold);
+}
+
+/* Completed Status Badge */
+.so-status-badge {
+  padding: 8px 16px;
+  border-radius: 4px;
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.so-status-badge.delivered {
+  background: rgba(0, 255, 0, 0.1);
+  color: #00ff80;
+  border: 1px solid #00ff80;
+}
+
+.so-status-badge.cancelled {
+  background: rgba(255, 0, 0, 0.1);
+  color: #ff4d4d;
+  border: 1px solid #ff4d4d;
+}

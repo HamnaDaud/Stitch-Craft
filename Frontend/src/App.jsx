@@ -5,12 +5,17 @@ import Login from './pages/Login';
 // --- CUSTOMER IMPORTS ---
 import LandingPage from './pages/Customer/LandingPage';
 import MyOrders from './pages/Customer/MyOrders';
+import FabricSearch from './pages/Customer/FabricSearch';
+import FabricDetails from './pages/Customer/FabricDetails';
 
 // --- TAILOR IMPORTS ---
 import TailorLandingPage from './pages/Tailor/TailorLandingPage';
 
 // --- SUPPLIER IMPORTS ---
 import SupplierDashboard from './pages/Supplier/SupplierDashboard';
+import AddFabric from './pages/Supplier/AddFabric';
+import EditFabric from './pages/Supplier/EditFabric';
+import SupplierOrders from './pages/Supplier/SupplierOrders';
 
 // --- IMPORT THE UI PROVIDER ---
 import { UiProvider } from './context/UiContext'; 
@@ -49,6 +54,13 @@ function App() {
             
             {/* PROTECTED ROUTES */}
             <Route path="/my-orders" element={<ProtectedRoute><MyOrders /></ProtectedRoute>} />
+            <Route path="/buy-fabric" element={<ProtectedRoute><FabricSearch /></ProtectedRoute>} />
+            <Route path="/product/:id" element={<ProtectedRoute><FabricDetails /></ProtectedRoute>} />
+
+            {/* SUPPLIER ROUTES */}
+            <Route path="/add-fabric" element={<ProtectedRoute><AddFabric /></ProtectedRoute>} />
+            <Route path="/edit-fabric/:id" element={<ProtectedRoute><EditFabric /></ProtectedRoute>} />
+            <Route path="/supplier/orders" element={<ProtectedRoute><SupplierOrders /></ProtectedRoute>} />
 
             {/* TAILOR ROUTES */}
             <Route path="/tailor/dashboard" element={<ProtectedRoute><TailorLandingPage /></ProtectedRoute>} />

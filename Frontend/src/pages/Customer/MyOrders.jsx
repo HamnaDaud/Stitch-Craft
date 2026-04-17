@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import CustomerNavbar from '../../components/CustomerNavbar';
+import { API_BASE_URL } from '../../config';
 import './MyOrders.css';
 
 const MyOrders = () => {
@@ -11,23 +12,42 @@ const MyOrders = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // MOCK DATA FOR ORDERS
-    const mockOrders = [
-      { _id: 'ORD123456', status: 'Delivered', createdAt: '2025-02-15', quantity: 5, totalPrice: 22500, fabric: { name: 'Midnight Silk' } },
-      { _id: 'ORD987654', status: 'Pending', createdAt: '2025-03-10', quantity: 3, totalPrice: 18600, fabric: { name: 'Royal Velvet' } }
-    ];
+    const fetchData = async () => {
+      try {
+        const token = localStorage.getItem('token');
+        if (!token) {
+           navigate('/login');
+           return;
+        }
 
-    const mockBookings = [
-      { _id: 'BK778899', status: 'Accepted', description: 'Bespoke 3-piece suit for wedding ceremony.', offeredPrice: 45000, dueDate: '2025-04-20', tailor: { name: 'Alessandro Sartori' } },
-      { _id: 'BK112233', status: 'Pending', description: 'Traditional Sherwani with gold embroidery.', offeredPrice: 35000, dueDate: '2025-05-05', tailor: { name: 'Elena Moretti' } }
-    ];
+        // 1. Fetch Real Fabric Purchases
+        const fabricRes = await fetch(`${API_BASE_URL}/fabric-purchases`, {
+          headers: { 'Authorization': `Bearer ${token}` }
+        });
+        
+        if (fabricRes.ok) {
+           const data = await fabricRes.json();
+           if (data.purchases) setFabricOrders(data.purchases);
+           else if (Array.isArray(data)) setFabricOrders(data);
+           else setFabricOrders([]);
+        }
 
-    setTimeout(() => {
-      setFabricOrders(mockOrders);
-      setTailorBookings(mockBookings);
-      setLoading(false);
-    }, 500);
-  }, []);
+        // 2. Use Mocked Tailor Bookings
+        const mockBookings = [
+          { _id: 'BK778899', status: 'Accepted', description: 'Bespoke 3-piece suit for wedding ceremony.', offeredPrice: 45000, dueDate: '2025-04-20', tailor: { name: 'Alessandro Sartori' } },
+          { _id: 'BK112233', status: 'Pending', description: 'Traditional Sherwani with gold embroidery.', offeredPrice: 35000, dueDate: '2025-05-05', tailor: { name: 'Elena Moretti' } }
+        ];
+        setTailorBookings(mockBookings);
+
+      } catch (err) {
+        console.error("Error fetching data:", err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchData();
+  }, [navigate]);
 
   const formatPrice = (price) => {
     return new Intl.NumberFormat('en-PK', { style: 'currency', currency: 'PKR', maximumFractionDigits: 0 }).format(price);
@@ -58,22 +78,29 @@ const MyOrders = () => {
         <div className="mo-content">
             {activeTab === 'fabric' && (
                 <div className="mo-grid">
-                    {fabricOrders.map((order) => (
-                        <div key={order._id} className="mo-card">
-                            <div className="mo-card-header">
-                                <span className="mo-id">#{order._id.slice(-6).toUpperCase()}</span>
-                                <span className="mo-status" style={{ color: getStatusColor(order.status), borderColor: getStatusColor(order.status) }}>
-                                  {order.status}
-                                </span>
+                    {fabricOrders.length > 0 ? (
+                        fabricOrders.map((order) => (
+                            <div key={order._id} className="mo-card">
+                                <div className="mo-card-header">
+                                    <span className="mo-id">#{order._id.slice(-6).toUpperCase()}</span>
+                                    <span className="mo-status" style={{ color: getStatusColor(order.status), borderColor: getStatusColor(order.status) }}>
+                                      {order.status || 'Processing'}
+                                    </span>
+                                </div>
+                                <div className="mo-card-body">
+                                    <h3>{order.fabric?.name || 'Unknown Fabric'}</h3>
+                                    <p className="mo-date">Ordered: {new Date(order.createdAt).toLocaleDateString()}</p>
+                                    <p className="mo-price">{formatPrice(order.totalPrice)}</p>
+                                    <p className="mo-qty">Quantity: {order.quantity} meters</p>
+                                </div>
                             </div>
-                            <div className="mo-card-body">
-                                <h3>{order.fabric.name}</h3>
-                                <p className="mo-date">Ordered: {new Date(order.createdAt).toLocaleDateString()}</p>
-                                <p className="mo-price">{formatPrice(order.totalPrice)}</p>
-                                <p className="mo-qty">Quantity: {order.quantity} meters</p>
-                            </div>
+                        ))
+                    ) : (
+                        <div className="mo-empty">
+                            <p>No fabric purchases found.</p>
+                            <button onClick={() => navigate('/buy-fabric')}>Browse Fabrics</button>
                         </div>
-                    ))}
+                    )}
                 </div>
             )}
 
