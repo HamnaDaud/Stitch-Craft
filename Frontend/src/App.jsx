@@ -1,6 +1,7 @@
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import Signup from './pages/Signup';
 import Login from './pages/Login';
+import UpdateProfile from './pages/UpdateProfile';
 
 // --- CUSTOMER IMPORTS ---
 import LandingPage from './pages/Customer/LandingPage';
@@ -56,6 +57,7 @@ function App() {
             <Route path="/" element={<Navigate to="/login" />} />
             <Route path="/signup" element={<Signup />} />
             <Route path="/login" element={<Login />} />
+            <Route path="/update-profile" element={<ProtectedRoute><UpdateProfile /></ProtectedRoute>} />
             
             {/* PROTECTED ROUTES */}
             <Route path="/my-orders" element={<ProtectedRoute><MyOrders /></ProtectedRoute>} />

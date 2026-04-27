@@ -33,7 +33,7 @@ const SupplierNavbar = () => {
         <Link to="/dashboard" className="nav-link" onClick={closeMenu}>Dashboard</Link>
         <Link to="/supplier/orders" className="nav-link" onClick={closeMenu}>Orders</Link> 
         <Link to="/add-fabric" className="nav-link" onClick={closeMenu}>Add Fabric</Link>
-        
+        <Link to="/update-profile" className="nav-link" onClick={closeMenu}>Profile</Link>
         <button className="nav-logout-btn" onClick={handleLogout}>
           LOGOUT
         </button>

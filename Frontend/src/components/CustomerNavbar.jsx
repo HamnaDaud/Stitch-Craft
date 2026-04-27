@@ -57,7 +57,7 @@ const CustomerNavbar = () => {
             )}
 
             <Link to="/my-orders" className="nav-link" onClick={closeMenu}>My Wardrobe</Link>
-            <Link to="/update-profile" className="nav-link" onClick={closeMenu}>Edit Profile</Link>
+            <Link to="/update-profile" className="nav-link" onClick={closeMenu}>Profile</Link>
             
             <button className="nav-logout-btn" onClick={handleLogout}>
               LOGOUT

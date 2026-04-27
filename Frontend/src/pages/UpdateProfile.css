@@ -1,0 +1,155 @@
+/* src/pages/UpdateProfile.css */
+
+:root {
+  --bg-dark: #0f1014;
+  --card-bg: #18191f;
+  --gold-primary: #ccb068;
+  --gold-hover: #e5c575;
+  --text-main: #f1f5f9;
+  --text-muted: #94a3b8;
+  --glass-border: rgba(255, 255, 255, 0.08);
+}
+
+.up-update-profile-container {
+  min-height: 100vh;
+  background-color: var(--bg-dark);
+  background-image: radial-gradient(circle at 50% 0%, rgba(204, 176, 104, 0.05) 0%, transparent 40%);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 40px 20px;
+  font-family: 'Inter', sans-serif;
+  color: var(--text-main);
+}
+
+.up-profile-card {
+  width: 100%;
+  max-width: 600px;
+  background: rgba(24, 25, 31, 0.7);
+  backdrop-filter: blur(12px);
+  border: 1px solid var(--glass-border);
+  border-radius: 16px;
+  padding: 40px;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+}
+
+/* --- Header --- */
+.up-profile-header {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.up-profile-header h1 {
+  font-family: 'Playfair Display', serif;
+  font-size: 2rem;
+  color: white;
+  margin-bottom: 8px;
+}
+
+.up-profile-header p {
+  color: var(--text-muted);
+  font-size: 0.9rem;
+}
+
+/* --- Form Elements --- */
+.up-profile-form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.up-input-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.up-input-group label {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.up-luxury-input {
+  background: rgba(0, 0, 0, 0.3);
+  border: 1px solid var(--glass-border);
+  border-radius: 8px;
+  padding: 14px;
+  color: white;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+}
+
+.up-luxury-input:focus {
+  outline: none;
+  border-color: var(--gold-primary);
+  background: rgba(0, 0, 0, 0.5);
+  box-shadow: 0 0 0 4px rgba(204, 176, 104, 0.1);
+}
+
+/* --- Role Specific Sections --- */
+.up-role-section {
+  margin-top: 10px;
+  padding-top: 20px;
+  border-top: 1px solid var(--glass-border);
+}
+
+.up-role-section h4 {
+  color: var(--gold-primary);
+  font-family: 'Playfair Display', serif;
+  margin-bottom: 15px;
+  font-size: 1.2rem;
+}
+
+.up-measurements-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 15px;
+}
+
+/* --- Buttons --- */
+.up-form-actions {
+  display: flex;
+  gap: 15px;
+  margin-top: 20px;
+}
+
+.up-btn-primary {
+  flex: 1;
+  background: var(--gold-primary);
+  color: #0f1014;
+  border: none;
+  padding: 14px;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.up-btn-primary:hover {
+  background: var(--gold-hover);
+  transform: translateY(-2px);
+}
+
+.up-btn-secondary {
+  flex: 1;
+  background: transparent;
+  color: var(--text-muted);
+  border: 1px solid var(--glass-border);
+  padding: 14px;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.up-btn-secondary:hover {
+  border-color: var(--text-main);
+  color: var(--text-main);
+}
+
+.up-btn-primary:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
