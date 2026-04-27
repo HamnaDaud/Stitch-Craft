@@ -6,7 +6,9 @@ import './MyOrders.css';
 
 const MyOrders = () => {
   const navigate = useNavigate();
-  const [activeTab, setActiveTab] = useState('fabric');
+  
+  // State
+  const [activeTab, setActiveTab] = useState('fabric'); // 'fabric' or 'tailor'
   const [fabricOrders, setFabricOrders] = useState([]);
   const [tailorBookings, setTailorBookings] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -20,7 +22,7 @@ const MyOrders = () => {
            return;
         }
 
-        // 1. Fetch Real Fabric Purchases
+        // 1. Fetch Fabric Purchases
         const fabricRes = await fetch(`${API_BASE_URL}/fabric-purchases`, {
           headers: { 'Authorization': `Bearer ${token}` }
         });
@@ -32,12 +34,17 @@ const MyOrders = () => {
            else setFabricOrders([]);
         }
 
-        // 2. Use Mocked Tailor Bookings
-        const mockBookings = [
-          { _id: 'BK778899', status: 'Accepted', description: 'Bespoke 3-piece suit for wedding ceremony.', offeredPrice: 45000, dueDate: '2025-04-20', tailor: { name: 'Alessandro Sartori' } },
-          { _id: 'BK112233', status: 'Pending', description: 'Traditional Sherwani with gold embroidery.', offeredPrice: 35000, dueDate: '2025-05-05', tailor: { name: 'Elena Moretti' } }
-        ];
-        setTailorBookings(mockBookings);
+        // 2. Fetch Tailor Bookings
+        const bookingRes = await fetch(`${API_BASE_URL}/tailor-bookings`, {
+            headers: { 'Authorization': `Bearer ${token}` }
+        });
+
+        if (bookingRes.ok) {
+            const bookingData = await bookingRes.json();
+            if (bookingData.bookings) setTailorBookings(bookingData.bookings);
+            else if (Array.isArray(bookingData)) setTailorBookings(bookingData);
+            else setTailorBookings([]);
+        }
 
       } catch (err) {
         console.error("Error fetching data:", err);
@@ -49,33 +56,54 @@ const MyOrders = () => {
     fetchData();
   }, [navigate]);
 
+  // Helper: Format Price
   const formatPrice = (price) => {
-    return new Intl.NumberFormat('en-PK', { style: 'currency', currency: 'PKR', maximumFractionDigits: 0 }).format(price);
+    return new Intl.NumberFormat('en-PK', { style: 'currency', currency: 'PKR' }).format(price);
   };
 
+  // Helper: Status Color Logic (Unified for both Tabs)
   const getStatusColor = (status) => {
     if (!status) return '#ccc';
-    const s = status.toLowerCase();
-    if (s === 'pending') return '#D4AF37';
-    if (s === 'accepted') return '#00d4ff';
-    if (s === 'completed' || s === 'delivered') return '#00ff80';
-    if (s === 'rejected' || s === 'cancelled') return '#ff4444';
-    return '#ccc';
+    
+    const s = status.toLowerCase(); // Case insensitive check
+    
+    if (s === 'pending') return '#D4AF37';       // Gold
+    if (s === 'accepted') return '#00d4ff';      // Blue
+    if (s === 'completed' || s === 'delivered') return '#00ff80'; // Green
+    if (s === 'rejected' || s === 'cancelled') return '#ff4444';  // Red
+    
+    return '#ccc'; // Grey for unknown/processing
   };
 
-  if (loading) return <div className="mo-loading">Accessing Archives...</div>;
+  if (loading) return <div className="mo-loading">Loading your requests...</div>;
 
   return (
     <div className="mo-wrapper">
       <CustomerNavbar />
+      
       <div className="mo-container">
         <h1 className="mo-title">My Activity</h1>
+        
+        {/* Tab Switcher */}
         <div className="mo-tabs">
-            <button className={`mo-tab ${activeTab === 'fabric' ? 'active' : ''}`} onClick={() => setActiveTab('fabric')}>Fabric Orders</button>
-            <button className={`mo-tab ${activeTab === 'tailor' ? 'active' : ''}`} onClick={() => setActiveTab('tailor')}>Tailor Bookings</button>
+            <button 
+              className={`mo-tab ${activeTab === 'fabric' ? 'active' : ''}`}
+              onClick={() => setActiveTab('fabric')}
+            >
+              Fabric Orders
+            </button>
+            <button 
+              className={`mo-tab ${activeTab === 'tailor' ? 'active' : ''}`}
+              onClick={() => setActiveTab('tailor')}
+            >
+              Tailor Bookings
+            </button>
         </div>
 
+        {/* Content Area */}
         <div className="mo-content">
+            
+            {/* ---------------- FABRIC ORDERS ---------------- */}
             {activeTab === 'fabric' && (
                 <div className="mo-grid">
                     {fabricOrders.length > 0 ? (
@@ -83,10 +111,18 @@ const MyOrders = () => {
                             <div key={order._id} className="mo-card">
                                 <div className="mo-card-header">
                                     <span className="mo-id">#{order._id.slice(-6).toUpperCase()}</span>
-                                    <span className="mo-status" style={{ color: getStatusColor(order.status), borderColor: getStatusColor(order.status) }}>
+                                    {/* Status Badge */}
+                                    <span 
+                                      className="mo-status"
+                                      style={{ 
+                                          color: getStatusColor(order.status),
+                                          borderColor: getStatusColor(order.status) 
+                                      }}
+                                    >
                                       {order.status || 'Processing'}
                                     </span>
                                 </div>
+
                                 <div className="mo-card-body">
                                     <h3>{order.fabric?.name || 'Unknown Fabric'}</h3>
                                     <p className="mo-date">Ordered: {new Date(order.createdAt).toLocaleDateString()}</p>
@@ -104,31 +140,56 @@ const MyOrders = () => {
                 </div>
             )}
 
+            {/* ---------------- TAILOR BOOKINGS ---------------- */}
             {activeTab === 'tailor' && (
                 <div className="mo-grid">
-                    {tailorBookings.map((booking) => (
-                        <div key={booking._id} className="mo-card booking-card">
-                            <div className="mo-card-header">
-                                <span className="mo-id">#{booking._id.slice(-6).toUpperCase()}</span>
-                                <span className="mo-status" style={{ color: getStatusColor(booking.status), borderColor: getStatusColor(booking.status) }}>
-                                  {booking.status}
-                                </span>
-                            </div>
-                            <div className="mo-card-body">
-                                <div className="mo-tailor-info">
-                                    <span className="mo-label">Tailor:</span>
-                                    <h3>{booking.tailor.name}</h3>
+                    {tailorBookings.length > 0 ? (
+                        tailorBookings.map((booking) => (
+                            <div key={booking._id} className="mo-card booking-card">
+                                <div className="mo-card-header">
+                                    <span className="mo-id">#{booking._id.slice(-6).toUpperCase()}</span>
+                                    {/* Status Badge */}
+                                    <span 
+                                      className="mo-status"
+                                      style={{ 
+                                          color: getStatusColor(booking.status),
+                                          borderColor: getStatusColor(booking.status) 
+                                      }}
+                                    >
+                                      {booking.status}
+                                    </span>
                                 </div>
-                                <p className="mo-desc">"{booking.description}"</p>
-                                <div className="mo-meta-row">
-                                    <div className="mo-meta"><span className="mo-label">Budget</span><span>{formatPrice(booking.offeredPrice)}</span></div>
-                                    <div className="mo-meta"><span className="mo-label">Due Date</span><span>{new Date(booking.dueDate).toLocaleDateString()}</span></div>
+
+                                <div className="mo-card-body">
+                                    <div className="mo-tailor-info">
+                                        <span className="mo-label">Tailor:</span>
+                                        <h3>{booking.tailor?.name || 'Unknown Tailor'}</h3>
+                                    </div>
+                                    
+                                    <p className="mo-desc">"{booking.description.length > 50 ? booking.description.substring(0,50)+'...' : booking.description}"</p>
+                                    
+                                    <div className="mo-meta-row">
+                                        <div className="mo-meta">
+                                            <span className="mo-label">Budget</span>
+                                            <span>{formatPrice(booking.offeredPrice)}</span>
+                                        </div>
+                                        <div className="mo-meta">
+                                            <span className="mo-label">Due Date</span>
+                                            <span>{new Date(booking.dueDate).toLocaleDateString()}</span>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
+                        ))
+                    ) : (
+                        <div className="mo-empty">
+                            <p>No active tailor bookings.</p>
+                            <button onClick={() => navigate('/book-tailor')}>Find a Tailor</button>
                         </div>
-                    ))}
+                    )}
                 </div>
             )}
+
         </div>
       </div>
     </div>
