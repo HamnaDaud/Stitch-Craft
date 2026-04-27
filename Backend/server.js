@@ -7,6 +7,7 @@ import dns from 'dns';
 import userRoutes from './routes/User.route.js';
 import fabricRoutes from './routes/Fabric.route.js';
 import fabricPurchaseRoutes from './routes/FabricPurchase.route.js';
+import tailorBookingRoutes from './routes/TailorBooking.route.js';
 
 
 dns.setServers(["1.1.1.1", "8.8.8.8"]);
@@ -23,7 +24,7 @@ app.use(express.json());
 app.use('/api/users', userRoutes);
 app.use('/api/fabrics', fabricRoutes);
 app.use('/api/fabric-purchases', fabricPurchaseRoutes);
-
+app.use('/api/tailor-bookings', tailorBookingRoutes);
 
 app.use((req, res, next) => {
   res.status(404).json({ message: "Route not found" });
