@@ -1,0 +1,110 @@
+.to-orders-page-wrapper {
+  background-color: #050505;
+  min-height: 100vh;
+  color: white;
+  font-family: 'Montserrat', sans-serif;
+}
+
+.to-orders-container {
+  padding: 100px 40px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.to-page-title {
+  font-family: 'Playfair Display', serif;
+  color: #D4AF37;
+  border-bottom: 1px solid #333;
+  padding-bottom: 20px;
+  margin-bottom: 40px;
+}
+
+.to-orders-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+  gap: 30px;
+}
+
+.to-request-card {
+  background: #111;
+  border: 1px solid #333;
+  border-radius: 8px;
+  overflow: hidden;
+  transition: all 0.3s;
+}
+
+.to-request-card:hover {
+  border-color: #555;
+  transform: translateY(-3px);
+}
+
+.to-card-header {
+  background: #1a1a1a;
+  padding: 15px 20px;
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.85rem;
+  color: #888;
+}
+
+.to-card-body {
+  padding: 20px;
+}
+
+.to-card-body h3 {
+  margin-top: 0;
+  color: #fff;
+  font-size: 1.2rem;
+  margin-bottom: 15px;
+}
+
+.to-detail-row {
+  margin-bottom: 8px;
+  font-size: 0.9rem;
+  color: #ccc;
+}
+
+.to-detail-row span {
+  color: #666;
+  width: 80px;
+  display: inline-block;
+}
+
+.to-price-tag {
+  margin-top: 15px;
+  font-size: 1.1rem;
+  color: #D4AF37;
+  font-weight: 600;
+  text-align: right;
+}
+
+.to-card-actions {
+  display: flex;
+  border-top: 1px solid #333;
+}
+
+.to-card-actions button {
+  flex: 1;
+  padding: 15px;
+  border: none;
+  cursor: pointer;
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 600;
+  transition: background 0.3s;
+}
+
+.to-btn-reject {
+  background: #1a1a1a;
+  color: #ff4444;
+}
+.to-btn-reject:hover { background: #2a1a1a; }
+
+.to-btn-accept {
+  background: #D4AF37;
+  color: #000;
+}
+.to-btn-accept:hover { background: #e5c575; }
+
+.to-status.to-completed { color: #4caf50; }
+.to-status.to-rejected { color: #ff4444; }
+.to-status.to-pending { color: #D4AF37; }

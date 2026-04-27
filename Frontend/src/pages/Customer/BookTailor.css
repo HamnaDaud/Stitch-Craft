@@ -1,0 +1,334 @@
+.bt-booking-page-wrapper {
+  background-color: #050505;
+  min-height: 100vh;
+  color: white;
+  font-family: 'Montserrat', sans-serif;
+  padding-top: 80px;
+}
+
+.bt-booking-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  gap: 60px;
+  padding: 60px 40px;
+}
+
+/* Left Side */
+.bt-tailor-info-side {
+  flex: 1;
+  text-align: center;
+}
+
+.bt-tailor-profile-img {
+  width: 100%;
+  max-width: 400px;
+  height: 500px;
+  object-fit: cover;
+  border-radius: 4px;
+  border: 1px solid #333;
+  margin-bottom: 30px;
+}
+
+.bt-tailor-name {
+  font-family: 'Playfair Display', serif;
+  font-size: 2.5rem;
+  color: #fff;
+  margin: 0 0 10px 0;
+}
+
+.bt-tailor-specs {
+  color: #D4AF37;
+  font-size: 0.9rem;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  margin-bottom: 30px;
+}
+
+.bt-view-portfolio-btn {
+  background: transparent;
+  border: 1px solid #D4AF37;
+  color: #D4AF37;
+  padding: 15px 30px;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.bt-view-portfolio-btn:hover {
+  background: rgba(212, 175, 55, 0.1);
+  transform: translateY(-2px);
+}
+
+/* Right Side (Form) */
+.bt-booking-form-side {
+  flex: 1.2;
+  display: flex;
+  align-items: center;
+}
+
+.bt-form-box {
+  width: 100%;
+  background: rgba(255, 255, 255, 0.03);
+  padding: 40px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+}
+
+.bt-form-box h2 {
+  font-family: 'Playfair Display', serif;
+  margin-top: 0;
+  color: #fff;
+}
+
+.bt-form-subtitle {
+  color: #888;
+  margin-bottom: 30px;
+  font-size: 0.9rem;
+}
+
+.bt-input-group {
+  margin-bottom: 20px;
+}
+
+.bt-input-row {
+  display: flex;
+  gap: 20px;
+}
+
+.bt-input-row .bt-input-group {
+  flex: 1;
+}
+
+.bt-input-group label {
+  display: block;
+  font-size: 0.75rem;
+  color: #D4AF37;
+  margin-bottom: 8px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.bt-input-group input, 
+.bt-input-group textarea {
+  width: 100%;
+  background: rgba(0,0,0,0.5);
+  border: 1px solid #444;
+  color: white;
+  padding: 15px;
+  font-family: 'Montserrat', sans-serif;
+  box-sizing: border-box;
+}
+
+.bt-input-group input:focus, 
+.bt-input-group textarea:focus {
+  outline: none;
+  border-color: #D4AF37;
+}.bt-booking-page-wrapper {
+  background-color: #050505;
+  min-height: 100vh;
+  color: white;
+  font-family: 'Montserrat', sans-serif;
+  padding-top: 80px;
+}
+
+.bt-booking-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  gap: 60px;
+  padding: 60px 40px;
+}
+
+/* Left Side */
+.bt-tailor-info-side {
+  flex: 1;
+  text-align: center;
+}
+
+/* -- NEW: Unified Profile Frame (Image or Initials) -- */
+.bt-profile-frame {
+  width: 100%;
+  max-width: 400px;
+  height: 500px;
+  margin: 0 auto 30px; /* Centers the box */
+  border-radius: 4px;
+  border: 1px solid #333;
+  overflow: hidden;
+  position: relative;
+}
+
+/* When showing an image */
+.bt-tailor-img-content {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* When showing the Initials Placeholder */
+.bt-profile-frame.bt-no-img {
+  background: #1a1a1a;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.bt-initials-placeholder {
+  font-family: 'Playfair Display', serif;
+  font-size: 7rem; /* Larger than search card */
+  background: linear-gradient(45deg, #D4AF37, #F5F5F5);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  font-weight: 700;
+  letter-spacing: -2px;
+  opacity: 0.8;
+}
+/* ----------------------------------------------- */
+
+.bt-tailor-name {
+  font-family: 'Playfair Display', serif;
+  font-size: 2.5rem;
+  color: #fff;
+  margin: 0 0 10px 0;
+}
+
+.bt-tailor-specs {
+  color: #D4AF37;
+  font-size: 0.9rem;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  margin-bottom: 30px;
+}
+
+.bt-view-portfolio-btn {
+  background: transparent;
+  border: 1px solid #D4AF37;
+  color: #D4AF37;
+  padding: 15px 30px;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.bt-view-portfolio-btn:hover {
+  background: rgba(212, 175, 55, 0.1);
+  transform: translateY(-2px);
+}
+
+/* Right Side (Form) */
+.bt-booking-form-side {
+  flex: 1.2;
+  display: flex;
+  align-items: center;
+}
+
+.bt-form-box {
+  width: 100%;
+  background: rgba(255, 255, 255, 0.03);
+  padding: 40px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+}
+
+.bt-form-box h2 {
+  font-family: 'Playfair Display', serif;
+  margin-top: 0;
+  color: #fff;
+}
+
+.bt-form-subtitle {
+  color: #888;
+  margin-bottom: 30px;
+  font-size: 0.9rem;
+}
+
+.bt-input-group {
+  margin-bottom: 20px;
+}
+
+.bt-input-row {
+  display: flex;
+  gap: 20px;
+}
+
+.bt-input-row .bt-input-group {
+  flex: 1;
+}
+
+.bt-input-group label {
+  display: block;
+  font-size: 0.75rem;
+  color: #D4AF37;
+  margin-bottom: 8px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.bt-input-group input, 
+.bt-input-group textarea {
+  width: 100%;
+  background: rgba(0,0,0,0.5);
+  border: 1px solid #444;
+  color: white;
+  padding: 15px;
+  font-family: 'Montserrat', sans-serif;
+  box-sizing: border-box;
+}
+
+.bt-input-group input:focus, 
+.bt-input-group textarea:focus {
+  outline: none;
+  border-color: #D4AF37;
+}
+
+.bt-submit-booking-btn {
+  width: 100%;
+  background: #D4AF37;
+  color: #000;
+  border: none;
+  padding: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  margin-top: 20px;
+  transition: background 0.3s;
+}
+
+.bt-submit-booking-btn:hover {
+  background: #e5c575;
+}
+
+.bt-state-msg {
+    text-align: center;
+    margin-top: 100px;
+    color: #888;
+}
+
+.bt-submit-booking-btn {
+  width: 100%;
+  background: #D4AF37;
+  color: #000;
+  border: none;
+  padding: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  margin-top: 20px;
+  transition: background 0.3s;
+}
+
+.bt-submit-booking-btn:hover {
+  background: #e5c575;
+}

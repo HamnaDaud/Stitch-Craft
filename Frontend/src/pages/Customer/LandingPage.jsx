@@ -24,34 +24,23 @@ const LandingPage = () => {
         const headers = { 'Content-Type': 'application/json' };
         if (token) headers['Authorization'] = `Bearer ${token}`;
 
-        // 1. Fetch Real Fabric Data
+        // 1. Fetch Fabrics (Using your working endpoint)
         const fabricRes = await fetch(`${API_BASE_URL}/fabrics/search`, { headers });
         if (fabricRes.ok) {
            const fabricData = await fabricRes.json();
+           // Ensure it's an array before slicing
            if (Array.isArray(fabricData)) {
              setFabrics(fabricData.slice(0, 8));
            }
         }
 
-        // 2. Use Mocked Tailor Data
-        const mockTailors = [
-          { 
-            _id: 't1', 
-            name: 'Master Rasheed', 
-            portfolio: [{ imageUrl: '/assets/mockTailors/white-shalwaar-kameez.jpg' }] 
-          },
-          { 
-            _id: 't2', 
-            name: 'Ritaj', 
-            portfolio: [{ imageUrl: '/assets/mockTailors/two-girls.jpg' }] 
-          },
-          { 
-            _id: 't3', 
-            name: 'Hammad Amer', 
-            portfolio: [] 
-          }
-        ];
-        setTailors(mockTailors);
+        // 2. Fetch Tailors (From Users endpoint)
+        const tailorRes = await fetch(`${API_BASE_URL}/users?role=Tailor`, { headers });
+        if (tailorRes.ok) {
+           const tailorData = await tailorRes.json();
+           // The controller returns { users: [...] }
+           setTailors(tailorData.users || []);
+        }
 
       } catch (err) {
         console.error("Error loading dashboard data:", err);
@@ -91,7 +80,7 @@ const LandingPage = () => {
         </div>
         <div className="clp-scroll-container">
           {loading ? (
-             <div style={{padding:'0 60px', color: '#D4AF37'}}>Curating Collection...</div>
+             <div style={{padding:'0 60px'}}>Loading...</div>
           ) : fabrics.length > 0 ? (
              fabrics.map((fabric) => (
                <div key={fabric._id} className="clp-luxury-card" onClick={() => handleFabricClick(fabric._id)}>
@@ -115,24 +104,38 @@ const LandingPage = () => {
         </div>
       </section>
 
-      {/* TAILOR SECTION (Mocked) */}
+      {/* TAILOR SECTION */}
       <section className="clp-showcase-row">
         <div className="clp-row-header">
           <h2 className="clp-row-title">Tailor Atelier</h2>
           <span className="clp-view-all" onClick={() => navigate('/book-tailor')}>View All Tailors</span>
         </div>
-        <div className="clp-scroll-container">
-          {tailors.map((tailor) => {
+<div className="clp-scroll-container">
+          {tailors.length === 0 ? (
+             <div style={{padding:'0 60px'}}>No tailors available.</div>
+          ) : (
+             tailors.map((tailor) => {
+               // Check for Portfolio Image
                const hasImage = tailor.portfolio?.[0]?.imageUrl;
+
                return (
                  <div key={tailor._id} className="clp-luxury-card" onClick={() => navigate(`/book-tailor/${tailor._id}`)}>
+                   
+                   {/* Image OR Initials */}
                    <div className={`clp-card-img-wrap ${!hasImage ? 'clp-no-img' : ''}`}>
                      {hasImage ? (
-                        <img src={tailor.portfolio[0].imageUrl} alt={tailor.name} className="clp-card-img" />
+                        <img 
+                          src={tailor.portfolio[0].imageUrl} 
+                          alt={tailor.name} 
+                          className="clp-card-img" 
+                        />
                      ) : (
-                        <div className="clp-initials-placeholder">{getInitials(tailor.name)}</div>
+                        <div className="clp-initials-placeholder">
+                          {getInitials(tailor.name)}
+                        </div>
                      )}
                    </div>
+
                    <div className="clp-card-overlay">
                      <h3 className="clp-item-name">{tailor.name}</h3>
                      <div className="clp-item-price" style={{color:'white', borderBottom:'1px solid white', width:'fit-content', fontSize:'1rem'}}>
@@ -141,7 +144,8 @@ const LandingPage = () => {
                    </div>
                  </div>
                );
-          })}
+             })
+          )}
         </div>
       </section>
       

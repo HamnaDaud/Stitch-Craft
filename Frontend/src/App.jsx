@@ -7,9 +7,14 @@ import LandingPage from './pages/Customer/LandingPage';
 import MyOrders from './pages/Customer/MyOrders';
 import FabricSearch from './pages/Customer/FabricSearch';
 import FabricDetails from './pages/Customer/FabricDetails';
+import TailorSearch from './pages/Customer/TailorSearch';
+import BookTailor from './pages/Customer/BookTailor';
+import ViewPortfolio from './pages/Customer/ViewPortfolio';
 
 // --- TAILOR IMPORTS ---
 import TailorLandingPage from './pages/Tailor/TailorLandingPage';
+import TailorPortfolio from './pages/Tailor/TailorPortfolio';
+import TailorOrders from './pages/Tailor/TailorOrders';
 
 // --- SUPPLIER IMPORTS ---
 import SupplierDashboard from './pages/Supplier/SupplierDashboard';
@@ -56,6 +61,9 @@ function App() {
             <Route path="/my-orders" element={<ProtectedRoute><MyOrders /></ProtectedRoute>} />
             <Route path="/buy-fabric" element={<ProtectedRoute><FabricSearch /></ProtectedRoute>} />
             <Route path="/product/:id" element={<ProtectedRoute><FabricDetails /></ProtectedRoute>} />
+            <Route path="/book-tailor" element={<ProtectedRoute><TailorSearch /></ProtectedRoute>} />
+            <Route path="/book-tailor/:id" element={<ProtectedRoute><BookTailor /></ProtectedRoute>} />
+            <Route path="/tailor-portfolio-view/:id" element={<ProtectedRoute><ViewPortfolio /></ProtectedRoute>} />
 
             {/* SUPPLIER ROUTES */}
             <Route path="/add-fabric" element={<ProtectedRoute><AddFabric /></ProtectedRoute>} />
@@ -64,6 +72,9 @@ function App() {
 
             {/* TAILOR ROUTES */}
             <Route path="/tailor/dashboard" element={<ProtectedRoute><TailorLandingPage /></ProtectedRoute>} />
+            <Route path="/tailor/requests" element={<ProtectedRoute><TailorOrders /></ProtectedRoute>} />
+            <Route path="/tailor/history" element={<ProtectedRoute><TailorOrders /></ProtectedRoute>} />
+            <Route path="/tailor/portfolio" element={<ProtectedRoute><TailorPortfolio /></ProtectedRoute>} />
 
             {/* SHARED DASHBOARD */}
             <Route path="/dashboard" element={<ProtectedRoute><RoleBasedDashboard /></ProtectedRoute>} />

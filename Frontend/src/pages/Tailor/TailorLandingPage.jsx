@@ -1,86 +1,84 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import TailorNavbar from '../../components/TailorNavbar';
-import { useUi } from '../../context/UiContext'; 
+import { API_BASE_URL } from '../../config';
+import { useUi } from '../../context/UiContext'; // <--- 1. Import Hook
 import './TailorLandingPage.css';
 
 const TailorLandingPage = () => {
   const navigate = useNavigate();
-  const { showToast, showConfirm } = useUi(); 
+  const { showToast, showConfirm } = useUi(); // <--- 2. Destructure
   
   const [stats, setStats] = useState({ active: 0, pending: 0, completed: 0, earnings: 0 });
   const [activeOrders, setActiveOrders] = useState([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // INITIAL MOCK DATA FETCH
-    const fetchDashboardData = () => {
-      setLoading(true);
-      
-      // Simulated Active Jobs for the Tailor
-      const mockActiveOrders = [
-        {
-          _id: 'BK99201',
-          status: 'In Progress',
-          description: 'Midnight Blue Bespoke 3-Piece Suit - Italian Cut',
-          customer: { name: 'Zain Ahmed' },
-          offeredPrice: 35000,
-          dueDate: '2025-03-28'
-        },
-        {
-          _id: 'BK99205',
-          status: 'Accepted',
-          description: 'Traditional Velvet Sherwani with Gold Zari Work',
-          customer: { name: 'Omar Kassim' },
-          offeredPrice: 55000,
-          dueDate: '2025-04-05'
-        },
-        {
-          _id: 'BK99210',
-          status: 'In Progress',
-          description: 'Linen Summer Blazer - Tailored Fit',
-          customer: { name: 'Hamza Malik' },
-          offeredPrice: 18000,
-          dueDate: '2025-03-22'
-        }
-      ];
-
-      // Simulated Dashboard Stats
-      const mockStats = {
-        active: 3,
-        pending: 5,
-        completed: 24,
-        earnings: 342000
-      };
-
-      setTimeout(() => {
-        setStats(mockStats);
-        setActiveOrders(mockActiveOrders);
-        setLoading(false);
-      }, 700);
-    };
-
     fetchDashboardData();
   }, []);
 
-  // DEMO INTERACTION: Simulates updating the backend
-  const handleMarkDone = (id) => {
-    showConfirm("Are you sure you want to mark this job as Completed?", () => {
-        // Find the order to get its price for the earnings update
-        const completedOrder = activeOrders.find(o => o._id === id);
+  const fetchDashboardData = async () => {
+    try {
+      const token = localStorage.getItem('token');
+      const res = await fetch(`${API_BASE_URL}/tailor-bookings`, {
+        headers: { 'Authorization': `Bearer ${token}` }
+      });
+      
+      if (res.ok) {
+        const rawData = await res.json();
+        const bookings = Array.isArray(rawData) ? rawData : (rawData.bookings || []);
         
-        // 1. Remove from local list
-        setActiveOrders(prev => prev.filter(order => order._id !== id));
+        const active = bookings.filter(b => 
+           b.status && ['accepted', 'in progress'].includes(b.status.toLowerCase())
+        );
+        const pending = bookings.filter(b => 
+           b.status && b.status.toLowerCase() === 'pending'
+        );
+        const completed = bookings.filter(b => 
+           b.status && b.status.toLowerCase() === 'completed'
+        );
         
-        // 2. Update Stats locally
-        setStats(prev => ({
-          ...prev,
-          active: prev.active - 1,
-          completed: prev.completed + 1,
-          earnings: prev.earnings + (completedOrder?.offeredPrice || 0)
-        }));
+        const earnings = completed.reduce((sum, b) => sum + (b.offeredPrice || 0), 0);
 
-        showToast("Order marked as Completed!", "success");
+        setStats({
+          active: active.length,
+          pending: pending.length,
+          completed: completed.length,
+          earnings
+        });
+
+        setActiveOrders(active);
+      }
+    } catch (error) {
+      console.error("Error fetching dashboard:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleMarkDone = (id) => {
+    // <--- 3. Use showConfirm instead of window.confirm
+    showConfirm("Are you sure you want to mark this job as Completed?", async () => {
+        try {
+            const token = localStorage.getItem('token');
+            const res = await fetch(`${API_BASE_URL}/tailor-bookings/${id}/status`, {
+                method: 'PUT',
+                headers: { 
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                },
+                body: JSON.stringify({ status: 'Completed' })
+            });
+
+            if(res.ok) {
+                showToast("Order marked as Completed!", "success"); // <--- 4. Success Toast
+                fetchDashboardData(); 
+            } else {
+                throw new Error("Failed");
+            }
+        } catch (err) { 
+            showToast("Failed to update status", "error"); // <--- 5. Error Toast
+        }
     });
   };
 
@@ -89,11 +87,10 @@ const TailorLandingPage = () => {
       <TailorNavbar />
       <div className="tl-tailor-content">
         <div className="tl-dashboard-header">
-          <h1>Atelier Dashboard</h1>
-          <p>Managing your current craft and production line.</p>
+          <h1>Tailor Dashboard</h1>
+          <p>Overview of your current production line.</p>
         </div>
 
-        {/* STATS SECTION */}
         <div className="tl-stats-grid">
           <div className="tl-stat-card gold" onClick={() => navigate('/tailor/requests')} style={{cursor:'pointer'}}>
             <h3>{stats.pending}</h3>
@@ -113,16 +110,12 @@ const TailorLandingPage = () => {
           </div>
         </div>
 
-        {/* ACTIVE ORDERS SECTION */}
         <div className="tl-active-orders-section">
             <div className="tl-section-title">
                 <h2>Work in Progress</h2>
                 <div className="tl-line"></div>
             </div>
-            
-            {loading ? (
-                <p style={{color: '#D4AF37', letterSpacing:'1px'}}>Syncing Atelier Records...</p>
-            ) : (
+            {loading ? <p>Loading...</p> : (
                 <div className="tl-orders-list">
                     {activeOrders.length === 0 ? (
                         <div className="tl-no-orders">
@@ -138,7 +131,7 @@ const TailorLandingPage = () => {
                                 <div className="tl-order-info">
                                     <h4>{order.description}</h4>
                                     <p>Customer: {order.customer?.name}</p>
-                                    <p className="tl-price">Agreed Price: Rs. {order.offeredPrice.toLocaleString()}</p>
+                                    <p className="tl-price">Agreed Price: Rs. {order.offeredPrice}</p>
                                 </div>
                                 <div className="tl-order-status">
                                     <span className={`tl-status-badge tl-${order.status.toLowerCase().replace(' ', '-')}`}>

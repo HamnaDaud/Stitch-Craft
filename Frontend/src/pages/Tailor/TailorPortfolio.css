@@ -1,0 +1,289 @@
+/* src/pages/Tailor/TailorPortfolio.css */
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Montserrat:wght@400;500;600&display=swap');
+
+:root {
+  --gold: #D4AF37;
+  --dark-bg: #050505;
+  --glass: rgba(255, 255, 255, 0.05);
+  --border: rgba(255, 255, 255, 0.1);
+}
+
+.tp-portfolio-page {
+  min-height: 100vh;
+  background-color: var(--dark-bg);
+  background-image: radial-gradient(circle at top, rgba(212, 175, 55, 0.1), transparent 60%);
+  color: white;
+  font-family: 'Montserrat', sans-serif;
+  display: flex;
+  justify-content: center;
+  align-items: center; /* Center vertical alignment */
+  padding: 10px; /* Reduced from 40px to give more screen real estate */
+  box-sizing: border-box;
+}
+
+.tp-portfolio-container {
+  width: 100%;
+  max-width: 500px; /* Reduced width slightly for a sharper mobile look */
+  display: flex;
+  flex-direction: column;
+  height: 95vh; /* Increased height usage to maximize screen space */
+  max-height: 900px;
+}
+
+/* Back Button */
+.tp-back-btn {
+  align-self: flex-start;
+  background: none;
+  border: none;
+  color: #888;
+  cursor: pointer;
+  font-size: 0.85rem;
+  margin-bottom: 5px; /* Reduced margin */
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  transition: color 0.3s;
+  font-family: 'Montserrat', sans-serif;
+  padding: 0;
+}
+
+.tp-back-btn:hover {
+  color: var(--gold);
+}
+
+/* Header - Made Compact */
+.tp-portfolio-header {
+  text-align: center;
+  margin-bottom: 10px; /* Significantly reduced from 25px */
+}
+
+.tp-portfolio-header h1 {
+  font-family: 'Playfair Display', serif;
+  color: var(--gold);
+  margin-bottom: 2px;
+  font-size: 1.5rem; /* Reduced from 2rem */
+  line-height: 1.2;
+}
+
+.tp-portfolio-header p {
+  color: #888;
+  font-size: 0.8rem;
+  margin: 0;
+}
+
+/* Input Card - Compact Version */
+.tp-input-card {
+  background: var(--glass);
+  border: 1px solid var(--border);
+  padding: 15px; /* Reduced from 20px */
+  border-radius: 12px;
+  margin-bottom: 10px; /* Reduced from 20px */
+  backdrop-filter: blur(10px);
+  flex-shrink: 0; /* Prevents this from shrinking */
+}
+
+.tp-input-group {
+  margin-bottom: 10px; /* Reduced from 15px */
+}
+
+.tp-input-group label {
+  display: block;
+  font-size: 0.75rem; /* Smaller label */
+  color: var(--gold);
+  margin-bottom: 4px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.tp-input-group input, 
+.tp-input-group textarea {
+  width: 100%;
+  background: rgba(0,0,0,0.3);
+  border: 1px solid #333;
+  color: white;
+  padding: 8px 10px; /* Reduced padding (was 12px) to make inputs slimmer */
+  border-radius: 6px;
+  font-family: inherit;
+  font-size: 0.9rem;
+  box-sizing: border-box;
+}
+
+.tp-input-group textarea {
+    resize: none; /* Prevent manual resizing breaking layout */
+}
+
+.tp-input-group input:focus, 
+.tp-input-group textarea:focus {
+  outline: none;
+  border-color: var(--gold);
+}
+
+.tp-file-upload-wrapper input.hidden-file-input {
+    display: none;
+}
+
+.tp-custom-file-btn {
+  display: block;
+  width: 100%;
+  padding: 8px; /* Compact padding */
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid #444;
+  border-radius: 6px;
+  color: #ccc;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-size: 0.85rem;
+  box-sizing: border-box;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.tp-add-btn {
+  width: 100%;
+  padding: 10px; /* Compact button */
+  background: transparent;
+  border: 1px dashed var(--gold);
+  color: var(--gold);
+  cursor: pointer;
+  transition: all 0.3s;
+  text-transform: uppercase;
+  font-weight: 600;
+  font-size: 0.85rem;
+}
+
+.tp-add-btn:hover {
+  background: rgba(212, 175, 55, 0.1);
+}
+
+.tp-add-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  border-color: #555;
+  color: #888;
+}
+
+/* Scroll View Area - Expands to fill space */
+.tp-portfolio-scroll-view {
+  flex: 1; 
+  overflow-y: auto; 
+  background: rgba(0,0,0,0.2);
+  border-radius: 12px;
+  padding: 10px;
+  margin-bottom: 10px;
+  border: 1px solid var(--border);
+  min-height: 150px; /* Ensures it never gets crushed too small */
+  
+  /* Custom Scrollbar */
+  scrollbar-width: thin;
+  scrollbar-color: #444 transparent;
+}
+
+/* Empty State */
+.tp-empty-state {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  opacity: 0.5;
+}
+
+.tp-empty-icon {
+  font-size: 2rem;
+  margin-bottom: 10px;
+}
+
+.tp-empty-state h3 {
+    font-size: 1.1rem;
+    margin: 0 0 5px 0;
+}
+
+/* Portfolio Items */
+.tp-portfolio-item-card {
+  display: flex;
+  background: #111;
+  border: 1px solid #222;
+  margin-bottom: 10px;
+  border-radius: 8px;
+  overflow: hidden;
+  height: 90px; /* Fixed height for consistency */
+}
+
+.tp-card-image {
+  width: 90px;
+  height: 90px;
+  flex-shrink: 0;
+}
+
+.tp-card-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.tp-card-content {
+  padding: 10px;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.tp-card-content p {
+  font-size: 0.85rem;
+  color: #ddd;
+  margin: 0;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  line-height: 1.3;
+}
+
+.tp-remove-btn {
+  align-self: flex-end;
+  background: none;
+  border: none;
+  color: #ff4444;
+  font-size: 0.75rem;
+  cursor: pointer;
+  padding: 0;
+}
+
+.tp-remove-btn:hover {
+  text-decoration: underline;
+}
+
+.tp-portfolio-footer {
+    flex-shrink: 0;
+}
+
+.tp-done-btn {
+  width: 100%;
+  padding: 12px;
+  background: var(--gold);
+  color: #000;
+  border: none;
+  font-weight: 700;
+  font-size: 0.95rem;
+  cursor: pointer;
+  border-radius: 8px;
+  box-shadow: 0 5px 15px rgba(212, 175, 55, 0.3);
+  transition: transform 0.2s;
+}
+
+.tp-done-btn:hover {
+  transform: translateY(-2px);
+  background: #e5c575;
+}
+
+@media (max-height: 700px) {
+    .tp-portfolio-header h1 { font-size: 1.2rem; }
+    .tp-input-card { padding: 10px; }
+    .tp-input-group input, .tp-input-group textarea { padding: 6px 10px; }
+    .tp-portfolio-item-card { height: 70px; }
+    .tp-card-image { width: 70px; height: 70px; }
+}
