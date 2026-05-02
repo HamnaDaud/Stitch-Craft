@@ -124,6 +124,13 @@
   cursor: not-allowed;
 }
 
+.error-msg,
+.field-error {
+  color: #ef4444;
+  margin-top: 10px;
+  font-size: 0.95rem;
+}
+
 /* Responsive */
 @media (max-width: 900px) {
   .login-container {

@@ -1,15 +1,35 @@
 import { User, Tailor, Customer, Supplier } from '../models/User.model.js';
 import jwt from 'jsonwebtoken';
 
+const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+const MIN_PASSWORD_LENGTH = 6;
+
 const generateToken = (id) => {
   return jwt.sign({ id }, process.env.JWT_SECRET, { expiresIn: '1d' });
 };
 
+const normalizeEmail = (email) => typeof email === 'string' ? email.trim().toLowerCase() : '';
+const validateEmail = (email) => EMAIL_REGEX.test(email);
+const validatePassword = (password) => typeof password === 'string' && password.length >= MIN_PASSWORD_LENGTH;
+
 export const registerUser = async (req, res) => {
   const { name, email, password, role, ...extraData } = req.body;
+  const normalizedEmail = normalizeEmail(email);
 
   try {
-    const userExists = await User.findOne({ email });
+    if (!name?.trim() || !normalizedEmail || !password) {
+      return res.status(400).json({ message: 'Name, email, and password are required.' });
+    }
+
+    if (!validateEmail(normalizedEmail)) {
+      return res.status(400).json({ message: 'Please provide a valid email address.' });
+    }
+
+    if (!validatePassword(password)) {
+      return res.status(400).json({ message: `Password must be at least ${MIN_PASSWORD_LENGTH} characters.` });
+    }
+
+    const userExists = await User.findOne({ email: normalizedEmail });
     if (userExists) return res.status(400).json({ message: 'User already exists' });
 
     let normalizedRole = 'Customer';
@@ -19,11 +39,11 @@ export const registerUser = async (req, res) => {
 
     let user;
     if (normalizedRole === 'Tailor') {
-      user = await Tailor.create({ name, email, password, role: 'Tailor', ...extraData });
+      user = await Tailor.create({ name: name.trim(), email: normalizedEmail, password, role: 'Tailor', ...extraData });
     } else if (normalizedRole === 'Supplier') {
-      user = await Supplier.create({ name, email, password, role: 'Supplier', ...extraData });
+      user = await Supplier.create({ name: name.trim(), email: normalizedEmail, password, role: 'Supplier', ...extraData });
     } else {
-      user = await Customer.create({ name, email, password, role: 'Customer', ...extraData });
+      user = await Customer.create({ name: name.trim(), email: normalizedEmail, password, role: 'Customer', ...extraData });
     }
 
     res.status(201).json({
@@ -39,7 +59,17 @@ export const registerUser = async (req, res) => {
 
 export const loginUser = async (req, res) => {
   const { email, password } = req.body;
-  const user = await User.findOne({ email });
+  const normalizedEmail = normalizeEmail(email);
+
+  if (!normalizedEmail || !password) {
+    return res.status(400).json({ message: 'Email and password are required.' });
+  }
+
+  if (!validateEmail(normalizedEmail)) {
+    return res.status(400).json({ message: 'Please provide a valid email address.' });
+  }
+
+  const user = await User.findOne({ email: normalizedEmail });
 
   if (user && (await user.matchPassword(password))) {
     res.json({

@@ -10,12 +10,41 @@ const Login = () => {
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
 
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  const MIN_PASSWORD_LENGTH = 6;
+  const emailValid = emailRegex.test(formData.email.trim());
+  const passwordValid = formData.password.length >= MIN_PASSWORD_LENGTH;
+  const isFormValid = emailValid && passwordValid;
+  const buttonDisabled = loading || !isFormValid;
+
   const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+    const value = e.target.name === 'email'
+      ? e.target.value.toLowerCase()
+      : e.target.value;
+    setFormData({ ...formData, [e.target.name]: value });
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    const trimmedEmail = formData.email.trim();
+    const password = formData.password;
+
+    if (!trimmedEmail || !password) {
+      setError('Email and password are required.');
+      return;
+    }
+
+    if (!emailRegex.test(trimmedEmail)) {
+      setError('Please enter a valid email address.');
+      return;
+    }
+
+    if (password.length < MIN_PASSWORD_LENGTH) {
+      setError(`Password must be at least ${MIN_PASSWORD_LENGTH} characters.`);
+      return;
+    }
+
     setLoading(true);
     setError('');
 
@@ -23,7 +52,7 @@ const Login = () => {
       const response = await fetch(`${API_BASE_URL}/users/login`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(formData),
+        body: JSON.stringify({ email: trimmedEmail, password }),
       });
 
       const data = await response.json();
@@ -32,15 +61,10 @@ const Login = () => {
         throw new Error(data.message || 'Login failed');
       }
 
-      // --- CRITICAL STEP: SAVE TOKEN ---
-      // This ensures the user stays logged in even if they refresh
       localStorage.setItem('token', data.token);
-      localStorage.setItem('userInfo', JSON.stringify(data)); 
-      
+      localStorage.setItem('userInfo', JSON.stringify(data));
       console.log('Login Success:', data);
-      
-      // Redirect to Dashboard/Home
-      navigate('/dashboard'); 
+      navigate('/dashboard');
 
     } catch (err) {
       setError(err.message);
@@ -83,8 +107,12 @@ const Login = () => {
                 name="email" 
                 placeholder="name@example.com" 
                 required 
+                value={formData.email}
                 onChange={handleChange} 
               />
+              {formData.email && !emailValid && (
+                <div className="field-error">Enter a valid email address.</div>
+              )}
             </div>
 
             <div className="styled-input-group">
@@ -94,11 +122,15 @@ const Login = () => {
                 name="password" 
                 placeholder="••••••••" 
                 required 
+                value={formData.password}
                 onChange={handleChange} 
               />
+              {formData.password && !passwordValid && (
+                <div className="field-error">Password must be at least {MIN_PASSWORD_LENGTH} characters.</div>
+              )}
             </div>
 
-            <button type="submit" className="login-btn" disabled={loading}>
+            <button type="submit" className="login-btn" disabled={buttonDisabled}>
               {loading ? 'Authenticating...' : 'Log In'}
             </button>
 

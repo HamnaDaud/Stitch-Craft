@@ -10,15 +10,21 @@ const baseOptions = {
 const userSchema = new mongoose.Schema({
   name: { 
     type: String, 
-    required: true 
+    required: true,
+    trim: true
   },
   email: { 
     type: String, 
     required: true, 
-    unique: true },
+    unique: true,
+    trim: true,
+    lowercase: true,
+    match: [/^[^\s@]+@[^\s@]+\.[^\s@]+$/, 'Please provide a valid email address']
+  },
   password: { 
     type: String, 
-    required: true 
+    required: true,
+    minlength: [6, 'Password must be at least 6 characters']
   },
   role: { 
     type: String,
